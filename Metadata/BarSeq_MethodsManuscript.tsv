@@ -1,0 +1,16 @@
+SetName	Date_pool_expt_started	Person	Mutant Library	Description	Index	Media	GrowthMethod	Group	Condition_1	Units_1	Conc_1	Condition_2	Units_2	Conc_2
+1A	20211215	aborchert	ML5_KT2440	M9_T0_1	ATCACG	M9	flask	NA	NA	NA	NA	NA	NA	NA
+1B	20211215	aborchert	ML5_KT2440	M9_T0_2	CGATGT	M9	flask	NA	NA	NA	NA	NA	NA	NA
+1C	20211215	aborchert	ML5_KT2440	M9_T0_3	TTAGGC	M9	flask	NA	NA	NA	NA	NA	NA	NA
+2A	20211215	aborchert	ML5_KT2440	LB_T0_1	TGACCA	LB	flask	NA	NA	NA	NA	NA	NA	NA
+2B	20211215	aborchert	ML5_KT2440	LB_T0_2	ACAGTG	LB	flask	NA	NA	NA	NA	NA	NA	NA
+2C	20211215	aborchert	ML5_KT2440	LB_T0_3	GCCAAT	LB	flask	NA	NA	NA	NA	NA	NA	NA
+3A	20211215	aborchert	ML5_KT2440	M9_from_M9_1	CAGATC	M9	flask	carbon source	D-Glucose	mM	20	NA	NA	NA
+3B	20211215	aborchert	ML5_KT2440	M9_from_M9_2	ACTTGA	M9	flask	carbon source	D-Glucose	mM	20	NA	NA	NA
+3C	20211215	aborchert	ML5_KT2440	M9_from_M9_3	GATCAG	M9	flask	carbon source	D-Glucose	mM	20	NA	NA	NA
+4A	20211215	aborchert	ML5_KT2440	M9_from_LB_1	TAGCTT	M9	flask	carbon source	D-Glucose	mM	20	NA	NA	NA
+4B	20211215	aborchert	ML5_KT2440	M9_from_LB_2	GGCTAC	M9	flask	carbon source	D-Glucose	mM	20	NA	NA	NA
+4C	20211215	aborchert	ML5_KT2440	M9_from_LB_3	CTTGTA	M9	flask	carbon source	D-Glucose	mM	20	NA	NA	NA
+8A	20211215	aborchert	ML5_KT2440	Coum_Alone_1	CGTACG	M9	flask	carbon source	p-Coumaric acid	mM	10	NA	NA	NA
+8B	20211215	aborchert	ML5_KT2440	Coum_Alone_2	GAGTGG	M9	flask	carbon source	p-Coumaric acid	mM	10	NA	NA	NA
+8C	20211215	aborchert	ML5_KT2440	Coum_Alone_3	GGTAGC	M9	flask	carbon source	p-Coumaric acid	mM	10	NA	NA	NA
