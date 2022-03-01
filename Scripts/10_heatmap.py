@@ -125,6 +125,7 @@ def main(Genes_n_Conditions_File,Input_Fitfile_Dir_Path, font_scale=1.0, method=
 			current_file = np.array(current_file[:])
 			genes_list = np.array(current_file[1:,0],dtype=str)
 			Description_List = np.array(current_file[1:,3],dtype=str)
+			Gene_Names = np.array(current_file[1:,2],dtype=str)
 			condition_fitness = np.array(current_file[1:,8:11], dtype=float)
 			Rep_labels=[]
 			Rep_labels = np.append(Rep_labels,np.array(current_file[0,8:11],dtype=str))
