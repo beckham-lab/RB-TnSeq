@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 import sys, os
 
-# This function loads your all.poolcount file, splits into groups based upon biological replicate, groups insertions according to gene locus, and eliminates genes that have 
-# fewer than three insertions in baseline sample, according to the baseline used. 
+# This function loads your all.poolcount file, splits into groups based upon biological replicate, groups insertions according to gene locus, and eliminates strains that have 
+# fewer than three insertions in the baseline sample, according to the baseline used. 
 
 # NOTE- This function breaks if using less than or more than 3 biological replicates. Modify accordingly.
 
@@ -22,7 +22,7 @@ import sys, os
 #   <baseline condition><replicates>_counts-in-genes.csv—Files made from extracting rows from the all.poolcount file where the barcoded transposon insertion
 #		falls within a gene and breaking apart by replicates A-C 
 #   <baseline condition><replicates>_in3genes.csv—File made from extracting rows from the <baseline condition><replicate>_counts-in-genes.csv file, where >= 3
-#		distinct transposon insertions exist for each gene in the T=0 baseline condition. This breaks apart into sets based upon replicate A,B, or C
+#		counts for each distinct transposon insertion exists in the T=0 baseline condition. This breaks apart into sets based upon replicate A,B, or C
 
 
 if len(sys.argv) < 3:
@@ -98,7 +98,8 @@ Table_C = Counts_Table_C.drop(drop_Cond_colsC, axis=1)
 
 ###################################################################################
 # Trim Replicate Tables to only include rows where an insertion is within a gene  #
-# and then trim to only include rows where the mutant count is at least 3         #
+# and then trim to only include rows where the mutant count for each unqiue       #
+# transposon is at least 3 in the baseline                                        #
 ###################################################################################
 
 #select only rows that are within genes (ingenes); write output to csv    
