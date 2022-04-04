@@ -15,9 +15,25 @@ plt.rcParams.update({'font.sans-serif':'Arial'})
 #Generate a heatmap showing fitness values for the genes listed in the first column of the input file. The conditions to include in the heatmap are listed in the second column of the input file (The glucose only baseline is added automatically to the heatmap)
 ##### 
 
-#Example call
-
-#python3 /Users/aborcher/Documents/RB_TnSeq_Methods/Scripts/6C_heatmap.py '/Users/aborcher/Documents/RB_TnSeq_Methods/6C_Heatmap_Genes/LB_v_M9_T0_heatmap.csv' '/Users/aborcher/Documents/RB_TnSeq_Methods/6A_Gene_Annotate/'
+#Example call:
+ #
+ #	#python3 10_heatmap.py <PATH/Included_Genes_List_File.csv> <PATH to Annoted genes file>
+ #
+ #	Note, all the optional inputs below can be declared in the command line to change the heatmap output as desired.
+ #
+ #
+ #	Input File:
+ #		Included_Genes_List_File -- A file where the first column is the a list of genes the user desires to include in the heatmap output. These become row in the heatmap
+ #									The second column is a list of conditions files to include in the heatmap output as columns. Note, this abstracts from the Annotated_Summary Files
+ #									Pay particular notcie to the code at Lines 71 and 123, since if your input file isn't named appropriately, this function will break
+ #									Note, replicates are added individually as a column
+ #										There is no functionality to use the mean of a particular condition and present it as a column in the heatmap output 
+ #
+ #
+ #	Output File:
+ #		heatmap_'Genes_n_Conditions_Filename'-- A heatmap file where columns are the input conditions (and the parallel medium comparison condition) and rows are the input genes for analysis
+ #		
+ #
 
 def main(Genes_n_Conditions_File,Input_Fitfile_Dir_Path, font_scale=1.0, method='average', metric='euclidean', robust='True', figheight=8, figwidth=8, cmap='RdBu', center=0, col_cluster='False', row_cluster='True', linewidths=0 , linecolor='black'):
 
