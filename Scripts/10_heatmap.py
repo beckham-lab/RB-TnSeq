@@ -15,27 +15,9 @@ plt.rcParams.update({'font.sans-serif':'Arial'})
 #Generate a heatmap showing fitness values for the genes listed in the first column of the input file. The conditions to include in the heatmap are listed in the second column of the input file (The glucose only baseline is added automatically to the heatmap)
 ##### 
 
-#Example call:
-#
-#	#python3 10_heatmap.py <PATH/Included_Genes_List_File.csv> <PATH to Annoted genes file>
-#
-#	Note, all the optional inputs below can be declared in the command line to change the heatmap output as desired.
-#
-#
-#	Input File:
-#		Included_Genes_List_File -- A file where the first column is the a list of genes the user desires to include in the heatmap output. These become row in the heatmap
-#									The second column is a list of conditions files to include in the heatmap output as columns. Note, this abstracts from the Annotated_Summary Files
-#									Pay particular notcie to the code at Lines 71 and 123, since if your input file isn't named appropriately, this function will break
-#									Note, replicates are added individually as a column
-#										There is no functionality to use the mean of a particular condition and present it as a column in the heatmap output 
-#
-#
-#	Output File:
-#		heatmap_'Genes_n_Conditions_Filename'-- A heatmap file where columns are the input conditions (and the parallel medium comparison condition) and rows are the input genes for analysis
-#		
-#
+#Example call
 
-
+#python3 /Users/aborcher/Documents/RB_TnSeq_Methods/Scripts/6C_heatmap.py '/Users/aborcher/Documents/RB_TnSeq_Methods/6C_Heatmap_Genes/LB_v_M9_T0_heatmap.csv' '/Users/aborcher/Documents/RB_TnSeq_Methods/6A_Gene_Annotate/'
 
 def main(Genes_n_Conditions_File,Input_Fitfile_Dir_Path, font_scale=1.0, method='average', metric='euclidean', robust='True', figheight=8, figwidth=8, cmap='RdBu', center=0, col_cluster='False', row_cluster='True', linewidths=0 , linecolor='black'):
 
@@ -50,8 +32,9 @@ def main(Genes_n_Conditions_File,Input_Fitfile_Dir_Path, font_scale=1.0, method=
 	row_cluster=strtobool(row_cluster)
 	linewidths = int(linewidths)
 
-	# load the .csv files with pandas, reading all rows and columns, including headers and convert to np array 
+	# load the .csv file with pandas, reading all rows and columns, including headers and convert to np array 
 	Whole_File = pd.read_csv(Genes_n_Conditions_File, header=None)
+	print(Whole_File)
 	Whole_File = Whole_File.fillna('')
 	Whole_File = np.array(Whole_File[:])
 	Genes = np.array(Whole_File[1:,0],dtype=str)
@@ -90,13 +73,16 @@ def main(Genes_n_Conditions_File,Input_Fitfile_Dir_Path, font_scale=1.0, method=
 			CondC = []
 			NEW_Description=[]
 			for j in range(0, len(Genes)):
+				if len(Genes[j]) < 1:  #This happens if there are less genes than conditions in the file
+					break
 				if Genes[j] not in genes_list: #Not all genes may exist in all datasets, if this happens fill with fitness_array with blank cells and move to next gene
 					GluA = np.append(GluA, '')
 					GluB = np.append(GluB, '')
 					GluC = np.append(GluC, '')
 					CondA = np.append(CondA, '')
 					CondB = np.append(CondB, '')
-					CondC = np.append(CondC, '')
+					CondC = np.append(CondC, '') 
+					NEW_Description = np.append(NEW_Description, Genes[j])  #This accounts for if the locus ID and associated description is not present in the fitness files
 					continue
 				a = np.where(genes_list == Genes[j])
 				GluA = np.append(GluA, glucose_fitness[a,0])
@@ -120,7 +106,7 @@ def main(Genes_n_Conditions_File,Input_Fitfile_Dir_Path, font_scale=1.0, method=
 		else:
 			if len(Conditions[i]) < 1:  #This happens if there are less conditions than genes in the file
 				break
-			current_file_name= Input_Fitfile_Dir_Path+'/M9 Glucose_v_M9 Glucose +'+Conditions[i]+'_Annotated_Summary.csv'
+			current_file_name= Input_Fitfile_Dir_Path+'/M9_Glucose_v_M9_'+Conditions[i]+'_Annotated_Summary.csv'
 			current_file = pd.read_csv(current_file_name, header=None)
 			current_file = np.array(current_file[:])
 			genes_list = np.array(current_file[1:,0],dtype=str)
@@ -135,28 +121,34 @@ def main(Genes_n_Conditions_File,Input_Fitfile_Dir_Path, font_scale=1.0, method=
 			CondC = []
 			NEW_Description=[]
 			for j in range(0, len(Genes)):
+				if len(Genes[j]) < 1:  #This happens if there are less genes than conditions in the file
+					break
 				if Genes[j] not in genes_list: #Not all genes may exist in all datasets, if this happens fill with fitness_array with blank cells and move to next gene
 					CondA = np.append(CondA, '')
 					CondB = np.append(CondB, '')
 					CondC = np.append(CondC, '')
+					NEW_Description = np.append(NEW_Description, Genes[j]) # This accounts for if the locus ID and associated description is not present in the fitness files
 					continue
 				a = np.where(genes_list == Genes[j])
 				CondA = np.append(CondA, condition_fitness[a,0])
 				CondB = np.append(CondB, condition_fitness[a,1])
 				CondC = np.append(CondC, condition_fitness[a,2])
-				
+
 				#The following .replace lines are my work around for in the description contains a forward slash in the string and also replaces spaces with underscores
 				Gene_Description = str(np.char.replace(Description_List[a],' ','_')) 
 				Gene_Description = str(np.char.replace(Gene_Description,'/','--'))
 				NEW_Description=np.append(NEW_Description,np.char.replace([Genes[j]+'('+str(Gene_Names[a])+')'+': '+Gene_Description],'--','/')) #The forward slash is added back in for the descriptions that contain them
-				
+
 				# I was having issues with ' and [] symbols showing up in the merged strings, so this was my crude work-around
 				NEW_Description=np.char.replace(NEW_Description,'[','')
 				NEW_Description=np.char.replace(NEW_Description,']','')
 				NEW_Description=np.char.replace(NEW_Description,'\'','')
+
 			fitness_array = np.column_stack((fitness_array,CondA,CondB,CondC))
+			condition_counter = condition_counter+1
 	
 	#Make a dataframe for all the data with 'Genes' as the row label and 'Condition' as the column label
+
 	Full_array = pd.DataFrame(fitness_array,columns=Condition_Labels,index=NEW_Description)
 	Full_array.index.name='Genes'
 	
